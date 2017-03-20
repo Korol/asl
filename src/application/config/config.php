@@ -23,7 +23,7 @@ $headers = apache_request_headers();
 if (isset($headers["X-Webpack-Server-Dev-Host"], $headers["X-Webpack-Server-Dev-Port"])) {
     $config['base_url'] = "http://".$headers["X-Webpack-Server-Dev-Host"].":".$headers["X-Webpack-Server-Dev-Port"]."/";
 } else {
-    $config['base_url'] = "";
+    $config['base_url'] = "http://" . $_SERVER['HTTP_HOST'] . "/";
 }
 
 /*
@@ -315,7 +315,7 @@ $config['cache_query_string'] = FALSE;
 | http://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'CNJSDNCJNDSJNCJDCnNNUONOD7343729572957';
 
 /*
 |--------------------------------------------------------------------------
@@ -365,10 +365,10 @@ $config['encryption_key'] = '';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'files';
+$config['sess_driver'] = 'database';
+$config['sess_save_path'] = 'ci_sessions';
 $config['sess_cookie_name'] = 'ci_session';
 $config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
 $config['sess_match_ip'] = FALSE;
 $config['sess_time_to_update'] = 300;
 $config['sess_regenerate_destroy'] = FALSE;
@@ -392,7 +392,7 @@ $config['cookie_prefix']	= '';
 if (isset($headers["X-Webpack-Server-Dev-Host"])) {
     $config['cookie_domain'] = $headers["X-Webpack-Server-Dev-Host"];
 } else {
-    $config['cookie_domain']	= '';
+    $config['cookie_domain']	= '.' . $_SERVER['HTTP_HOST'];
 }
 $config['cookie_path']		= '/';
 $config['cookie_secure']	= FALSE;
