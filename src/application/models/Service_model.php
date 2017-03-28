@@ -523,4 +523,22 @@ class Service_model extends MY_Model {
         $this->db()->update(self::TABLE_SERVICE_DELIVERY_NAME, array('IsDone' => 1));
     }
 
+    /**
+     * Удаление вестерна
+     * @param int $id           ID записи
+     * @param string $type      тип услуги (вестерн, доставка, встреча)
+     */
+    public function serviceDelete($id, $type)
+    {
+        $types = array(
+            'western' => self::TABLE_SERVICE_WESTERN_NAME,
+            'meeting' => self::TABLE_SERVICE_MEETING_NAME,
+            'delivery' => self::TABLE_SERVICE_DELIVERY_NAME,
+        );
+
+        if(!empty($id) && in_array($type, array_keys($types))){
+            $this->db()->delete($types[$type], array('ID' => $id));
+        }
+    }
+
 }

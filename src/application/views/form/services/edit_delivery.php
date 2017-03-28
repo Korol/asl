@@ -97,6 +97,10 @@
             </div>
         </div>
         <div class="service-block-settings-btns">
+            <button class="btn assol-btn remove" onclick="removeDelivery(<?=$record['ID']; ?>); return false;" title="Удалить услугу">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                Удалить доставку
+            </button>
             <button id="SaveDelivery" class="btn assol-btn save" title="Сохранить изменения">
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                 Сохранить
@@ -140,5 +144,14 @@
     function showErrorAlert(message) {
         $('#alertErrorMessage').text(message);
         $('#alertError').slideDown();
+    }
+
+    function removeDelivery(id){
+        $.post(
+            'services/delivery/remove',
+            { id: id },
+            callback,
+            'json'
+        );
     }
 </script>

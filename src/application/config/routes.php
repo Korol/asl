@@ -231,6 +231,9 @@ $route['services/meeting/(:any)']        = 'Services_Meeting/$1';
 $route['services/meeting/(:num)/edit']   = 'Services_Meeting/edit/$1';
 $route['services/delivery/(:any)']       = 'Services_Delivery/$1';
 $route['services/delivery/(:num)/edit']  = 'Services_Delivery/edit/$1';
+$route['services/western/remove']        = 'Services_Western/remove';
+$route['services/meeting/remove']        = 'Services_Meeting/remove';
+$route['services/delivery/remove']       = 'Services_Delivery/remove';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

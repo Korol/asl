@@ -184,4 +184,26 @@ class Services_Western extends MY_Controller {
         }
     }
 
+    public function remove() {
+        $isAdmin = IS_LOVE_STORY
+            ? ($this->isDirector() || $this->isSecretary())
+            : ($this->isDirector() || $this->isSecretary());
+
+        if (!$isAdmin)
+            show_error('Данный раздел не доступен для текущего пользователя', 403, 'Доступ запрещен');
+
+        try {
+            $id = $this->input->post('id');
+
+            if (empty($id))
+                throw new Exception('Нет данных для удаления');
+
+            $this->getServiceModel()->serviceDelete($id, 'western');
+
+            $this->json_response(array('status' => 1));
+        } catch (Exception $e) {
+            $this->json_response(array('status' => 0, 'message' => $e->getMessage()));
+        }
+    }
+
 }
