@@ -62,7 +62,7 @@ class Employee_Site_Clients extends MY_Controller {
         }
     }
 
-    public function remove($EmployeeID, $idSite, $idCustomer) {
+    public function remove($EmployeeID, $idSite, $idCustomer, $return = true) {
         try {
             if (!isset($EmployeeID, $idSite, $idCustomer))
                 throw new RuntimeException("Не указан обязательный параметр");
@@ -70,9 +70,29 @@ class Employee_Site_Clients extends MY_Controller {
             $this->getEmployeeModel()->siteCustomerDelete($idCustomer);
             $this->getEmployeeModel()->employeeUpdateNote($this->getUserID(), $EmployeeID, ['Site']);
 
-            $this->json_response(array("status" => 1));
+            if($return) $this->json_response(array("status" => 1));
         } catch (Exception $e) {
-            $this->json_response(array('status' => 0, 'message' => $e->getMessage()));
+            if($return) $this->json_response(array('status' => 0, 'message' => $e->getMessage()));
+        }
+    }
+
+    public function removeall($EmployeeID, $idSite, $idWorkSite) {
+        // все клиенты
+        $records = $this->getEmployeeModel()->employeeSiteCustomerGetList($idWorkSite);
+        if(!empty($records)){
+            $r_size = sizeof($records);
+            $rm_size = 0;
+            foreach($records as $record){
+                $rm = $this->remove($EmployeeID, $idSite, $record['ID'], false);
+                $rm_size++;
+            }
+            if($rm_size == $r_size){
+                $this->json_response(array("status" => 1));
+            }
+            else{
+                $this->json_response(array('status' => 0, 'message' => 'Удалено ' . $rm_size . ' записей из ' . $r_size));
+            }
+
         }
     }
 

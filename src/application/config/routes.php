@@ -96,6 +96,7 @@ $route['employee/(:num)/site/(:num)/customer/data']             = 'Employee_Site
 $route['employee/(:num)/site/(:num)/customer/(:num)/find']      = 'Employee_Site_Clients/find/$1/$2/$3';
 $route['employee/(:num)/site/(:num)/customer/(:num)/save']      = 'Employee_Site_Clients/save/$1/$2/$3';
 $route['employee/(:num)/site/(:num)/customer/(:num)/remove']    = 'Employee_Site_Clients/remove/$1/$2/$3';
+$route['employee/(:num)/site/(:num)/worksite/(:num)/removeall']    = 'Employee_Site_Clients/removeall/$1/$2/$3';
 
 $route['employee/(:num)/relative/data']             = 'Employee_Relative/data/$1';
 $route['employee/(:num)/relative/save']             = 'Employee_Relative/save/$1';

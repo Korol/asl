@@ -102,6 +102,16 @@ $(document).ready(function(){
                     $.EmployeeCard.RemoveSiteCustomer(idSite, idWorkSite, $(e.target).attr('record'));
                 });
             });
+            $(document).on("click", ".action-remove-all-customers", function (e) {
+                confirmRemove(function(){
+                    var siteBlock = $(e.target).closest('.work-sites-block');
+
+                    var idWorkSite = siteBlock.attr('id-work-site');
+                    var idSite = siteBlock.attr('id-site');
+
+                    $.EmployeeCard.RemoveSiteAllCustomers(idSite, idWorkSite);
+                });
+            });
             $(document).on("click", ".action-save-children", function (e) {
                 $.EmployeeCard.SaveChildrenRecord($(e.target).closest('button').attr('record'));
             });
@@ -324,7 +334,14 @@ $(document).ready(function(){
         },
         /** Обновление списка сайтов */
         ReloadSiteCustomerList: function(SiteID) {
-            this.ReloadData('#ClientsList_' + SiteID, 'site/' + SiteID + '/customer', 'clientsTemplate');
+            //this.ReloadData('#ClientsList_' + SiteID, 'site/' + SiteID + '/customer', 'clientsTemplate');
+            this.ReloadData('#ClientsList_' + SiteID, 'site/' + SiteID + '/customer', 'clientsTemplate', null, function() {
+                var listHtml = $('#ClientsList_' + SiteID).html();
+                if(listHtml != ''){
+                    $('#ClientsList_' + SiteID).parent('.clients-list').append('<button class="btn assol-btn remove action-remove-all-customers" id="rmAll'+ SiteID +'" title="Удалить всех клиентов"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Удалить всех</button>');
+                }
+            });
+
         },
         /** Обновление списка Skype */
         ReloadSkypeList: function() {
@@ -797,6 +814,23 @@ $(document).ready(function(){
             }
 
             var url = BaseUrl + 'employee/'+EmployeeID+'/site/'+idSite+'/customer/' + RecordID+'/remove';
+            $.post(url, {}, callback, 'json');
+        },
+        /** Удаление всех клиентов из указанного сайта */
+        RemoveSiteAllCustomers: function(idSite, idWorkSite) {
+            hideAlerts();
+
+            function callback(data) {
+                if (data.status) {
+                    showSuccessAlert('Записи успешно удалены');
+                    $('#rmAll'+idWorkSite).remove();
+                    $.EmployeeCard.ReloadSiteCustomerList(idWorkSite);
+                } else {
+                    showErrorAlert(data.message)
+                }
+            }
+
+            var url = BaseUrl + 'employee/'+EmployeeID+'/site/'+idSite+'/worksite/'+idWorkSite+'/removeall';
             $.post(url, {}, callback, 'json');
         },
         /** Удаление социальной сети по ID */
