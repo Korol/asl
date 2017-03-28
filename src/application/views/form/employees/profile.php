@@ -949,7 +949,7 @@
                 <script id="clientsTemplate" type="text/x-jquery-tmpl">
                     <li class="clients-item">
                         <span class="glyphicon glyphicon-remove-circle <? if ($isEditWork): ?> action-remove-customer <? endif ?>" record="${ID}" aria-hidden="true" title="Удалить клиента из списка"></span>
-                        <a href="javascript: void(0);">${SName} ${FName}</a>
+                        <a href="/customer/${cID}/profile" target="_blank">${SName} ${FName}</a>
                     </li>
                 </script>
 
