@@ -524,7 +524,7 @@ class Service_model extends MY_Model {
     }
 
     /**
-     * Удаление вестерна
+     * Удаление услуги
      * @param int $id           ID записи
      * @param string $type      тип услуги (вестерн, доставка, встреча)
      */
