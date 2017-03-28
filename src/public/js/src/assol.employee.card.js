@@ -338,6 +338,7 @@ $(document).ready(function(){
             this.ReloadData('#ClientsList_' + SiteID, 'site/' + SiteID + '/customer', 'clientsTemplate', null, function() {
                 var listHtml = $('#ClientsList_' + SiteID).html();
                 if(listHtml != ''){
+                    $('#rmAll'+SiteID).remove();
                     $('#ClientsList_' + SiteID).parent('.clients-list').append('<button class="btn assol-btn remove action-remove-all-customers" id="rmAll'+ SiteID +'" title="Удалить всех клиентов"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Удалить всех</button>');
                 }
             });
