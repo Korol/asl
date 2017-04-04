@@ -169,6 +169,7 @@ $route['customer/(:num)/site/(:num)/remove']        = 'Customer_Site/remove/$1/$
 
 $route['customer/(:num)/story/data']                = 'Customer_Story/data/$1';
 $route['customer/(:num)/story/save']                = 'Customer_Story/save/$1';
+$route['customer/(:num)/story/save2']                = 'Customer_Story/save2/$1';
 $route['customer/(:num)/story/(:num)/remove']       = 'Customer_Story/remove/$1/$2';
 
 $route['question/template']         = 'Customer_Question/template/$1';

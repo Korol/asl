@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title" id="remoteDialogLabel">ДОБАВИТЬ ВСТРЕЧУ</h4>
+    <h4 class="modal-title" id="remoteDialogLabel">РЕДАКТИРОВАТЬ ВСТРЕЧУ</h4>
 </div>
 <div class="modal-body">
     <?php if (isset($errorMessage)): ?>
@@ -16,7 +16,7 @@
                     <div class="form-group">
                         <label for="meetingDateIn">Дата приезда</label>
                         <div class="date-field">
-                            <input type="text" class="assol-input-style" id="meetingDateIn">
+                            <input type="text" class="assol-input-style" id="meetingDateIn" value="<?= toClientDate($record['DateIn']) ?>">
                         </div>
                     </div>
                 </div>
@@ -24,28 +24,31 @@
                     <div class="form-group">
                         <label for="meetingDateOut">Дата отъезда</label>
                         <div class="date-field">
-                            <input type="text" class="assol-input-style" id="meetingDateOut">
+                            <input type="text" class="assol-input-style" id="meetingDateOut" value="<?= toClientDate($record['DateOut']) ?>">
                         </div>
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingGirl">Девушка</label>
-                        <input type="text" class="assol-input-style" id="meetingGirl">
+                        <input type="text" class="assol-input-style" id="meetingGirl" value="<?= $record['Girl'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingMen">Мужчина</label>
-                        <input type="text" class="assol-input-style" id="meetingMen">
+                        <input type="text" class="assol-input-style" id="meetingMen" value="<?= $record['Men'] ?>">
                     </div>
                 </div>
                 <div style="width: 50%">
                     <div class="form-group">
                         <label for="meetingSite">Сайт</label>
                         <div class="btn-group assol-select-dropdown" id="meetingSite">
+                            <?php
+                            $siteName = array_search($record['SiteID'], array_column($sites, 'ID', 'Name'));
+                            ?>
                             <div class="label-placement-wrap">
-                                <button class="btn" data-label-placement=""><span class="data-label">Выбрать</span></button>
+                                <button class="btn" data-label-placement=""><span class="data-label"><?= $siteName ?></span></button>
                             </div>
                             <button data-toggle="dropdown" class="btn dropdown-toggle">
                                 <span class="caret"></span>
@@ -53,7 +56,8 @@
                             <ul class="dropdown-menu">
                                 <?php foreach($sites as $item): ?>
                                     <li>
-                                        <input type="radio" id="Site_<?=$item['ID']?>" name="Site" value="<?=$item['ID']?>">
+                                        <?php $isChecked = $item['ID']==$record['SiteID'] ?>
+                                        <input type="radio" id="Site_<?=$item['ID']?>" name="Site" value="<?=$item['ID']?>" <?= $isChecked ? 'checked' : ''?>>
                                         <label for="Site_<?=$item['ID']?>"><?= empty($item['Name']) ? $item['Domen'] : $item['Name'] ?></label>
                                     </li>
                                 <?php endforeach ?>
@@ -64,34 +68,33 @@
                 <div>
                     <div class="form-group">
                         <label for="meetingCity">Город</label>
-                        <input type="text" class="assol-input-style" id="meetingCity">
+                        <input type="text" class="assol-input-style" id="meetingCity" value="<?= $record['City'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingTransfer">Трансфер</label>
-                        <input type="text" class="assol-input-style" id="meetingTransfer">
+                        <input type="text" class="assol-input-style" id="meetingTransfer" value="<?= $record['Transfer'] ?>">
                     </div>
                 </div>
-                    <div class="form-group" style="width: 50%">
-                        <label for="meetingUserTranslateOrganizer">Переводчик создавший встречу</label>
-                        <input type="text" class="assol-input-style" id="meetingUserTranslateOrganizer"
-                               disabled="disabled" value="<?= $employee['SName'] ?> <?= $employee['FName'] ?>">
-                    </div>
-                    <div class="form-group" style="width: 50%">
-                        <label for="meetingUserTranslateDuring">Переводчик во время встречи</label>
-                        <input type="text" class="assol-input-style" id="meetingUserTranslateDuring">
-                    </div>
+                <div class="form-group" style="width: 50%">
+                    <label for="meetingUserTranslateOrganizer">Переводчик создавший встречу</label>
+                    <input type="text" class="assol-input-style" disabled="disabled" value="<?= $employee['SName'] ?> <?= $employee['FName'] ?>">
+                </div>
+                <div class="form-group" style="width: 50%">
+                    <label for="meetingUserTranslateDuring">Переводчик во время встречи</label>
+                    <input type="text" class="assol-input-style" id="meetingUserTranslateDuring" value="<?= $record['UserTranslateDuring'] ?>">
+                </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingHousing">Жилье</label>
-                        <input type="text" class="assol-input-style" id="meetingHousing">
+                        <input type="text" class="assol-input-style" id="meetingHousing" value="<?= $record['Housing'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingTranslate">Перевод</label>
-                        <input type="text" class="assol-input-style" id="meetingTranslate">
+                        <input type="text" class="assol-input-style" id="meetingTranslate" value="<?= $record['Translate'] ?>">
                     </div>
                 </div>
             </div>
@@ -109,7 +112,7 @@
                     <div class="form-group">
                         <label for="meetingDateIn">Дата приезда</label>
                         <div class="date-field">
-                            <input type="text" class="assol-input-style" id="meetingDateIn">
+                            <input type="text" class="assol-input-style" id="meetingDateIn" value="<?= toClientDate($record['DateIn']) ?>">
                         </div>
                     </div>
                 </div>
@@ -117,39 +120,31 @@
                     <div class="form-group">
                         <label for="meetingDateOut">Дата отъезда</label>
                         <div class="date-field">
-                            <input type="text" class="assol-input-style" id="meetingDateOut">
-                        </div>
-                    </div>
-                </div>
-                <style>
-                    .action-append-customer{
-                        display: block;
-                    }
-                </style>
-                <div class="user-id-field-wrap">
-                    <div class="form-group user-id-field" style="width: 100%; margin-left: 0;">
-                        <label for="meetingGirl">Девушка</label>
-                        <input type="text" class="assol-input-style user-id-input" id="meetingGirl">
-                        <div class="user-id-tooltip"> <!-- Появляется на фокус поля, но можно єто и убрать.... -->
-                            <div id="meetingGirl_tg" class="tooltip-content">
-                                <a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>
-                            </div>
-                            <div class="arrow"></div>
+                            <input type="text" class="assol-input-style" id="meetingDateOut" value="<?= toClientDate($record['DateOut']) ?>">
                         </div>
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
+                        <label for="meetingGirl">Девушка</label>
+                        <input type="text" class="assol-input-style" id="meetingGirl" value="<?= $record['Girl'] ?>">
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
                         <label for="meetingMen">Мужчина</label>
-                        <input type="text" class="assol-input-style" id="meetingMen">
+                        <input type="text" class="assol-input-style" id="meetingMen" value="<?= $record['Men'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingSite">Сайт</label>
                         <div class="btn-group assol-select-dropdown" id="meetingSite">
+                            <?php
+                            $siteName = array_search($record['SiteID'], array_column($sites, 'ID', 'Name'));
+                            ?>
                             <div class="label-placement-wrap">
-                                <button class="btn" data-label-placement=""><span class="data-label">Выбрать</span></button>
+                                <button class="btn" data-label-placement=""><span class="data-label"><?= $siteName ?></span></button>
                             </div>
                             <button data-toggle="dropdown" class="btn dropdown-toggle">
                                 <span class="caret"></span>
@@ -157,7 +152,8 @@
                             <ul class="dropdown-menu">
                                 <?php foreach($sites as $item): ?>
                                     <li>
-                                        <input type="radio" id="Site_<?=$item['ID']?>" name="Site" value="<?=$item['ID']?>">
+                                        <?php $isChecked = $item['ID']==$record['SiteID'] ?>
+                                        <input type="radio" id="Site_<?=$item['ID']?>" name="Site" value="<?=$item['ID']?>" <?= $isChecked ? 'checked' : ''?>>
                                         <label for="Site_<?=$item['ID']?>"><?= empty($item['Name']) ? $item['Domen'] : $item['Name'] ?></label>
                                     </li>
                                 <?php endforeach ?>
@@ -165,44 +161,42 @@
                         </div>
                     </div>
                 </div>
-                <div class="user-id-field-wrap">
-                    <div class="form-group user-id-field" style="width: 100%; margin-left: 0;">
+                <div>
+                    <div class="form-group">
                         <label for="meetingUserTranslate">Переводчик</label>
-                        <input type="text" class="assol-input-style employee-id-input" id="meetingUserTranslate">
-                        <div class="user-id-tooltip"> <!-- Появляется на фокус поля, но можно єто и убрать.... -->
-                            <div id="meetingUserTranslate_tg" class="tooltip-content">
-                                <a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>
-                            </div>
-                            <div class="arrow"></div>
-                        </div>
+                        <input type="text" class="assol-input-style" id="meetingUserTranslate" value="<?= $record['UserTranslate'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingCity">Город</label>
-                        <input type="text" class="assol-input-style" id="meetingCity">
+                        <input type="text" class="assol-input-style" id="meetingCity" value="<?= $record['City'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingTransfer">Трансфер</label>
-                        <input type="text" class="assol-input-style" id="meetingTransfer">
+                        <input type="text" class="assol-input-style" id="meetingTransfer" value="<?= $record['Transfer'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingHousing">Жилье</label>
-                        <input type="text" class="assol-input-style" id="meetingHousing">
+                        <input type="text" class="assol-input-style" id="meetingHousing" value="<?= $record['Housing'] ?>">
                     </div>
                 </div>
                 <div>
                     <div class="form-group">
                         <label for="meetingTranslate">Перевод</label>
-                        <input type="text" class="assol-input-style" id="meetingTranslate">
+                        <input type="text" class="assol-input-style" id="meetingTranslate" value="<?= $record['Translate'] ?>">
                     </div>
                 </div>
             </div>
             <div class="service-block-settings-btns">
+                <button class="btn assol-btn remove" onclick="removeMeeting(<?=$record['ID']; ?>); return false;" title="Удалить услугу">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    Удалить встречу
+                </button>
                 <button id="SaveMeeting" class="btn assol-btn save" title="Сохранить изменения">
                     <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                     Сохранить
@@ -243,9 +237,9 @@
         };
 
         <? if (IS_LOVE_STORY): ?>
-            data['userTranslateDuring'] = $('#meetingUserTranslateDuring').val();
+        data['userTranslateDuring'] = $('#meetingUserTranslateDuring').val();
         <? else: ?>
-            data['userTranslate'] = $('#meetingUserTranslate').val();
+        data['userTranslate'] = $('#meetingUserTranslate').val();
         <? endif ?>
 
         $.post('<?= current_url() ?>', data, callback, 'json');
@@ -255,5 +249,14 @@
     function showErrorAlert(message) {
         $('#alertErrorMessage').text(message);
         $('#alertError').slideDown();
+    }
+
+    function removeMeeting(id){
+        $.post(
+            'services/meeting/remove',
+            { id: id },
+            callback,
+            'json'
+        );
     }
 </script>

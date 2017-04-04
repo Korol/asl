@@ -146,6 +146,12 @@ class Customer extends MY_Controller {
             'sites' => $this->getSiteModel()->getRecords()
         );
 
+        // встречи и доставки клиентки
+        if(!empty($data['customer']['SName'])){
+            $data['meetings'] = $this->getServiceModel()->findServiceByCustomerSName($data['customer']['SName'], 'meeting');
+            $data['deliverys'] = $this->getServiceModel()->findServiceByCustomerSName($data['customer']['SName'], 'delivery');
+        }
+
         // Установка прав доступа к договорам и паспорту только для assol
         if (!IS_LOVE_STORY) {
             // Редактирование прав доступа к договорам и паспорту

@@ -66,28 +66,6 @@ $(document).ready(function(){
                     }
                 });
             });
-
-            /** Автокомплит при вводе Клиента и Переводчика */
-            $(document).on("keyup", ".employee-id-input", function (e) {
-                delay(function(){
-                    var userID = $(e.target).val();
-                    var fieldID = e.target.id;
-
-                    $.AssolServices.FindUser(userID, fieldID, 'employee');
-                }, 500);
-            });
-            $(document).on("keyup", ".user-id-input", function (e) {
-                delay(function(){
-                    var userID = $(e.target).val();
-                    var fieldID = e.target.id;
-
-                    $.AssolServices.FindUser(userID, fieldID, 'user');
-                }, 500);
-            });
-            $(document).on("click", ".action-append-customer", function (e) {
-                var userRole = $(e.target).attr('user-role');
-                $('.'+userRole+'-id-input').val($(e.target).text());
-            });
         },
         /** Инициализация динамичных данных */
         InitDynamicData: function() {
@@ -98,39 +76,6 @@ $(document).ready(function(){
             $("#westernTemplate").template('westernTemplate');
             $("#meetingTemplate").template('meetingTemplate');
             $("#deliveryTemplate").template('deliveryTemplate');
-        },
-        FindUser: function(userID, fieldID, usrRole) {
-            var targetSelector2 = '#' + fieldID + '_tg';
-
-            $(targetSelector2).html('Поиск...');
-
-            if (userID) {
-                var urlData = BaseUrl + 'services/find';
-
-                $.post(
-                    urlData,
-                    {user : userID, role : usrRole},
-                    function (data) {
-                        if (data.status) {
-                            if (data.records){
-                                $(targetSelector2).html('');
-                                var items = data.records.map(function (item) {
-                                    return '<a href="javascript: void(0);" class="action-append-customer" user-role="'+usrRole+'" id-customer="'+item.id+'">'+item.name+'</a>';
-                                });
-                                $(targetSelector2).html(items.join('<br>')+'<br>');
-                            } else {
-                                $(targetSelector2).html('Нет данных...');
-                            }
-                        } else {
-                            console.log(data.message);
-                            $(targetSelector2).html('Нет данных...');
-                        }
-                    },
-                    'json'
-                );
-            } else {
-                $(targetSelector2).html('<a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>');
-            }
         },
         DoneService: function (id, type) {
             function callback() {

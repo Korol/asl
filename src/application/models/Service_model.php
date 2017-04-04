@@ -40,6 +40,8 @@ class Service_model extends MY_Model {
             `Housing` VARCHAR(512) NOT NULL COMMENT 'Жилье',
             `Translate` VARCHAR(512) NOT NULL COMMENT 'Перевод',
             `IsDone` TINYINT(1) DEFAULT 0 COMMENT 'Флаг выполнения',
+            `Photo` VARCHAR(255) DEFAULT NULL,
+            `Comment` TEXT,
             PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT='Услуги - встречи';";
 
@@ -55,6 +57,8 @@ class Service_model extends MY_Model {
             `Delivery` VARCHAR(512) NOT NULL COMMENT 'Доставка',
             `Gratitude` VARCHAR(512) NOT NULL COMMENT 'Благодарность',
             `IsDone` TINYINT(1) DEFAULT 0 COMMENT 'Флаг выполнения',
+            `Photo` VARCHAR(255) DEFAULT NULL,
+            `Comment` TEXT,
             PRIMARY KEY (`ID`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT='Услуги - доставки';";
 
@@ -541,4 +545,68 @@ class Service_model extends MY_Model {
         }
     }
 
+    /**
+     * Поиск услуги по фамилии клиентки и типу (Вестерн | Встреча | Доставка)
+     * @param $SName
+     * @param $type
+     * @return array|object
+     */
+    public function findServiceByCustomerSName($SName, $type)
+    {
+        $types = array(
+            'western' => array(
+                'table' => self::TABLE_SERVICE_WESTERN_NAME,
+                'select' => '',
+            ),
+            'meeting' => array(
+                'table' => self::TABLE_SERVICE_MEETING_NAME,
+                'select' => '',
+            ),
+            'delivery' => array(
+                'table' => self::TABLE_SERVICE_DELIVERY_NAME,
+                'select' => ', e2.SName AS TSName, e2.FName AS TFName, e2.MName AS TMName',
+            ),
+        );
+
+        if(!empty($SName) && in_array($type, array_keys($types))){
+            $this->db()->select($types[$type]['table'] . '.*, e.SName AS ESName, e.FName AS EFName, e.MName AS EMName' . $types[$type]['select']);
+            $this->db()->join(self::TABLE_EMPLOYEE_NAME . ' AS e', 'e.ID = ' . $types[$type]['table'] . '.EmployeeID');
+            if($type == 'delivery'){
+                $this->db()->join(self::TABLE_EMPLOYEE_NAME . ' AS e2', 'e2.ID = ' . $types[$type]['table'] . '.UserTranslateID');
+            }
+            $this->db()->where('IsDone', 1);
+            $this->db()->like('Girl', $SName, 'after');
+            $this->db()->order_by('id', SORT_ASC);
+            $res = $this->db()->get($types[$type]['table'])->result_array();//var_dump($this->db()->last_query());
+        }
+
+        return (!empty($res)) ? $res : array();
+    }
+
+    public function updateServiceAdditional($sid, $type, $data)
+    {
+        $types = array(
+            'western' => self::TABLE_SERVICE_WESTERN_NAME,
+            'meeting' => self::TABLE_SERVICE_MEETING_NAME,
+            'delivery' => self::TABLE_SERVICE_DELIVERY_NAME,
+        );
+
+        if(!empty($sid) && in_array($type, array_keys($types)) && !empty($data)){
+            $this->db()->update($types[$type], $data, array('ID' => $sid));
+        }
+    }
+
+    public function serviceGet($id, $type)
+    {
+        $types = array(
+            'western' => self::TABLE_SERVICE_WESTERN_NAME,
+            'meeting' => self::TABLE_SERVICE_MEETING_NAME,
+            'delivery' => self::TABLE_SERVICE_DELIVERY_NAME,
+        );
+
+        if(!empty($id) && in_array($type, array_keys($types))){
+            $res = $this->db()->get_where($types[$type], array('ID' => $id))->row_array();
+        }
+        return (!empty($res)) ? $res : array();
+    }
 }

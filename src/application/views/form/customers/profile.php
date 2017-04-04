@@ -2095,14 +2095,21 @@
                 </form>
                 </script>
 
-                <div id="storyList"></div>
+                <?php /*div id="storyList"></div*/?>
 
                 <script>
                     $(document).on('click', '#storyList button[type!=submit]', function (event) {
                         return false;
                     });
                 </script>
-            </div>
+
+                <?php $this->load->view('form/customers/new_story', array(
+                    'sites' => $sites,
+                    'meetings' => $meetings,
+                    'deliverys' => $deliverys,
+                    'isEditStory' => $isEditStory,
+                )); ?>
+
             <? if($isShowRemove): ?>
                 <div role="tabpanel" class="tab-pane" id="Remove">
                     <div class="row">

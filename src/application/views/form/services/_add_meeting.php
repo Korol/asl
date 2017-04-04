@@ -121,21 +121,10 @@
                         </div>
                     </div>
                 </div>
-                <style>
-                    .action-append-customer{
-                        display: block;
-                    }
-                </style>
-                <div class="user-id-field-wrap">
-                    <div class="form-group user-id-field" style="width: 100%; margin-left: 0;">
+                <div>
+                    <div class="form-group">
                         <label for="meetingGirl">Девушка</label>
-                        <input type="text" class="assol-input-style user-id-input" id="meetingGirl">
-                        <div class="user-id-tooltip"> <!-- Появляется на фокус поля, но можно єто и убрать.... -->
-                            <div id="meetingGirl_tg" class="tooltip-content">
-                                <a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>
-                            </div>
-                            <div class="arrow"></div>
-                        </div>
+                        <input type="text" class="assol-input-style" id="meetingGirl">
                     </div>
                 </div>
                 <div>
@@ -165,16 +154,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="user-id-field-wrap">
-                    <div class="form-group user-id-field" style="width: 100%; margin-left: 0;">
+                <div>
+                    <div class="form-group">
                         <label for="meetingUserTranslate">Переводчик</label>
-                        <input type="text" class="assol-input-style employee-id-input" id="meetingUserTranslate">
-                        <div class="user-id-tooltip"> <!-- Появляется на фокус поля, но можно єто и убрать.... -->
-                            <div id="meetingUserTranslate_tg" class="tooltip-content">
-                                <a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>
-                            </div>
-                            <div class="arrow"></div>
-                        </div>
+                        <input type="text" class="assol-input-style" id="meetingUserTranslate">
                     </div>
                 </div>
                 <div>

@@ -93,4 +93,38 @@ class Customer_Story extends MY_Controller {
         );
     }
 
+    /**
+     * сохраняем дополнительную информацию о событии (Встреча | Доставка)
+     */
+    public function save2($cid)
+    {
+        if(!empty($_POST)){
+            $post = $this->input->post(null, true);
+            $types = array('meeting', 'delivery');
+            if(!empty($post['SID']) && !empty($post['SType']) && in_array($post['SType'], $types)){
+                $service = $this->getServiceModel()->serviceGet($post['SID'], $post['SType']);
+                if(!empty($_FILES)){
+                    $photo = $this->uploadPhoto();
+                }
+                $photo_name = (!empty($photo))
+                    ? $photo
+                    : (!empty($service['Photo']) ? $service['Photo'] : '');
+                $data = array(
+                    'Photo' => $photo_name,
+                    'Comment' => $post['SComment'],
+                );
+                $this->getServiceModel()->updateServiceAdditional($post['SID'], $post['SType'], $data);
+            }
+        }
+        redirect(base_url('customer/' . $cid . '/profile'));
+    }
+
+    public function uploadPhoto()
+    {
+        $file = $_FILES['SPhoto'];
+        $ext = $this->assertFileType($file['tmp_name']);
+        $file_id = $this->getImageModel()->imageInsert($this->getFileContent($file['tmp_name']), $ext);
+        return (!empty($file_id)) ? $file_id . '.' . $ext : '';
+    }
+
 }

@@ -67,10 +67,21 @@
                     <input type="text" class="assol-input-style" id="deliveryMen">
                 </div>
             </div>
-            <div>
-                <div class="form-group">
+            <style>
+                .action-append-customer{
+                    display: block;
+                }
+            </style>
+            <div class="user-id-field-wrap">
+                <div class="form-group user-id-field" style="width: 100%; margin-left: 0;">
                     <label for="deliveryGirl">Девушка</label>
-                    <input type="text" class="assol-input-style" id="deliveryGirl">
+                    <input type="text" class="assol-input-style user-id-input" id="deliveryGirl">
+                    <div class="user-id-tooltip"> <!-- Появляется на фокус поля, но можно єто и убрать.... -->
+                        <div id="deliveryGirl_tg" class="tooltip-content">
+                            <a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>
+                        </div>
+                        <div class="arrow"></div>
+                    </div>
                 </div>
             </div>
             <div>

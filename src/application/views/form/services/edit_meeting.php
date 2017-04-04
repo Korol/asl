@@ -124,10 +124,21 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div class="form-group">
+                <style>
+                    .action-append-customer{
+                        display: block;
+                    }
+                </style>
+                <div class="user-id-field-wrap">
+                    <div class="form-group user-id-field" style="width: 100%; margin-left: 0;">
                         <label for="meetingGirl">Девушка</label>
-                        <input type="text" class="assol-input-style" id="meetingGirl" value="<?= $record['Girl'] ?>">
+                        <input type="text" class="assol-input-style user-id-input" id="meetingGirl" value="<?= $record['Girl'] ?>">
+                        <div class="user-id-tooltip"> <!-- Появляется на фокус поля, но можно єто и убрать.... -->
+                            <div id="meetingGirl_tg" class="tooltip-content">
+                                <a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>
+                            </div>
+                            <div class="arrow"></div>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -161,10 +172,16 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div class="form-group">
+                <div class="user-id-field-wrap">
+                    <div class="form-group user-id-field" style="width: 100%; margin-left: 0;">
                         <label for="meetingUserTranslate">Переводчик</label>
-                        <input type="text" class="assol-input-style" id="meetingUserTranslate" value="<?= $record['UserTranslate'] ?>">
+                        <input type="text" class="assol-input-style employee-id-input" id="meetingUserTranslate" value="<?= $record['UserTranslate'] ?>">
+                        <div class="user-id-tooltip"> <!-- Появляется на фокус поля, но можно єто и убрать.... -->
+                            <div id="meetingUserTranslate_tg" class="tooltip-content">
+                                <a href="javascript: void(0);" class="action-append-customer" id-customer="0">Введите ФИО или ID</a>
+                            </div>
+                            <div class="arrow"></div>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -193,10 +210,6 @@
                 </div>
             </div>
             <div class="service-block-settings-btns">
-                <button class="btn assol-btn remove" onclick="removeMeeting(<?=$record['ID']; ?>); return false;" title="Удалить услугу">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    Удалить встречу
-                </button>
                 <button id="SaveMeeting" class="btn assol-btn save" title="Сохранить изменения">
                     <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
                     Сохранить
@@ -249,14 +262,5 @@
     function showErrorAlert(message) {
         $('#alertErrorMessage').text(message);
         $('#alertError').slideDown();
-    }
-
-    function removeMeeting(id){
-        $.post(
-            'services/meeting/remove',
-            { id: id },
-            callback,
-            'json'
-        );
     }
 </script>
