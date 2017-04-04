@@ -103,7 +103,7 @@ class Customer_Story extends MY_Controller {
             $types = array('meeting', 'delivery');
             if(!empty($post['SID']) && !empty($post['SType']) && in_array($post['SType'], $types)){
                 $service = $this->getServiceModel()->serviceGet($post['SID'], $post['SType']);
-                if(!empty($_FILES)){
+                if(!empty($_FILES['SPhoto']['tmp_name'])){
                     $photo = $this->uploadPhoto();
                 }
                 $photo_name = (!empty($photo))
