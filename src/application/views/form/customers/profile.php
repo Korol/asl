@@ -2110,7 +2110,7 @@
                     'isEditStory' => $isEditStory,
                 )); ?>
 
-            </div>
+
             <? if($isShowRemove): ?>
                 <div role="tabpanel" class="tab-pane" id="Remove">
                     <div class="row">
